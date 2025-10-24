@@ -58,29 +58,39 @@ public class ColorConverter {
     return new int[]{r, g, b};
     }
 
-    // https://www.rapidtables.com/convert/color/rgb-to-hsv.html
+    // https://math.stackexchange.com/questions/556341/rgb-to-hsv-color-conversion-algorithm
     public double[] rgbToHsv(int r, int g, int b){
-        double max = (double) (Math.max(r, Math.max(g, b)) / 255.0);
-        double min = (double) (Math.min(r, Math.min(g, b)) / 255.0);
-
-        if(max == min) {
-            return new double[]{0, 0, max / 255};
-        }
-
-        double s = 0;
-        if(max != 0){
-            s = 1 - min / max;
-        }
-        if (max == r / 255){
-            if(g >= b){
-                return new double[]{60 * ((double)g / 255 - (double)b / 255) / (max - min), s, max};
-            } else {
-                return new double[]{60 * ((double)g / 255 - (double)b / 255) / (max - min) + 360, s, max};
-            }
-        } else if (max == g / 255){
-            return new double[]{60 * ((double)b / 255 - (double)r / 255) / (max - min) + 120, s, max};
-        } else {
-             return new double[]{60 * ((double)r / 255 - (double)g / 255) / (max - min) + 240, s, max};
-        }
+    double rd = (double)r / 255.0;
+    double gd = (double)g / 255.0;
+    double bd = (double)b / 255.0;
+    
+    double maxc = Math.max(rd, Math.max(gd, bd));
+    double minc = Math.min(rd, Math.min(gd, bd));
+    double v = maxc;
+    
+    if (minc == maxc) {
+        return new double[]{0.0, 0.0, v * 100};
+    }
+    
+    double s = (maxc - minc) / maxc;
+    double rc = (maxc - rd) / (maxc - minc);
+    double gc = (maxc - gd) / (maxc - minc);
+    double bc = (maxc - bd) / (maxc - minc);
+    
+    double h;
+    if (rd == maxc) {
+        h = 0.0 + bc - gc;
+    } else if (gd == maxc) {
+        h = 2.0 + rc - bc;
+    } else {
+        h = 4.0 + gc - rc;
+    }
+    
+    h = (h / 6.0);
+    if (h < 0) {
+        h += 1.0;
+    }
+    
+    return new double[]{Math.round(h * 360), s, v};
     };
 }
