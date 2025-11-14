@@ -1,3 +1,7 @@
+Изображения для контрастирования:
+<img width="736" height="970" alt="image" src="https://github.com/user-attachments/assets/4066e1b0-f6cb-4e02-9792-2afe56429446" />
+<img width="367" height="651" alt="image" src="https://github.com/user-attachments/assets/186abc0b-55dd-4b04-8654-fa9e0bff0cba" />
+
 Линейное контрастирование
 Исходное изображение 1:
 <img width="937" height="1002" alt="Исходное изображение 1" src="https://github.com/user-attachments/assets/c975258b-6c68-4fab-9b5e-c6c096b36702" />
@@ -37,7 +41,7 @@
 <img width="943" height="1004" alt="image" src="https://github.com/user-attachments/assets/ad1de217-ac34-43da-a8fb-a8ddeb627716" />
 
 Исходное изображение для обнаружения:
-![1677551165_papik-pro-p-legkie-risunki-pryamimi-liniyami-2](https://github.com/user-attachments/assets/70618852-80e0-4380-ab76-529338a5c31a)
+<img width="570" height="855" alt="image" src="https://github.com/user-attachments/assets/3b99f80c-1dd6-49ca-8521-0ebffd497f40" />
 
 Обнаружение точек:
 <img width="1280" height="647" alt="image" src="https://github.com/user-attachments/assets/2f349550-8db7-4d46-8707-9d242339b608" />
