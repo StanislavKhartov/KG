@@ -19,7 +19,7 @@
 <img width="367" height="651" alt="image" src="https://github.com/user-attachments/assets/186abc0b-55dd-4b04-8654-fa9e0bff0cba" />
 
 # Линейное контрастирование
-Исходное изображение 1:
+## Исходное изображение 1:
 <img width="937" height="1002" alt="Исходное изображение 1" src="https://github.com/user-attachments/assets/c975258b-6c68-4fab-9b5e-c6c096b36702" />
 
 ## После применения линейного контрастирования:
@@ -32,16 +32,16 @@
 <img width="935" height="1005" alt="Контрастированное изображение 2" src="https://github.com/user-attachments/assets/432278f0-ac48-4101-8a2c-92aacc47eafa" />
 
 # Выравнивание гистограммы в RGB пространстве
-Исходное изображение 1:
+## Исходное изображение 1:
 <img width="937" height="1002" alt="Исходное изображение 3" src="https://github.com/user-attachments/assets/79883e2f-785d-4f1f-afd7-9597c8d7727b" />
 
-После выравнивания гистограммы по RGB:
+## После выравнивания гистограммы по RGB:
 <img width="940" height="1007" alt="Выравненное RGB изображение 1" src="https://github.com/user-attachments/assets/6687b2c8-b78e-4a98-b502-269161873c7a" />
 
-Исходное изображение 2:
+## Исходное изображение 2:
 <img width="940" height="1002" alt="Исходное изображение 4" src="https://github.com/user-attachments/assets/86e171d6-207c-4c5d-9796-b0535c2e033a" />
 
-После выравнивания гистограммы по RGB:
+## После выравнивания гистограммы по RGB:
 <img width="941" height="1012" alt="Выравненное RGB изображение 2" src="https://github.com/user-attachments/assets/111b16d0-60d9-4aa2-9834-5fc708fad630" />
 
 # Выравнивание гистограммы в HSV пространстве
