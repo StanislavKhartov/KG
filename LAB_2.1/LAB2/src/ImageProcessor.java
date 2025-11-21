@@ -57,10 +57,6 @@ public class ImageProcessor {
                 int newG = (int) ((g - minGreen) * 255.0 / (maxGreen - minGreen));
                 int newB = (int) ((b - minBlue) * 255.0 / (maxBlue - minBlue));
                 
-                newR = Math.max(0, Math.min(255, newR));
-                newG = Math.max(0, Math.min(255, newG));
-                newB = Math.max(0, Math.min(255, newB));
-                
                 int newRGB = (newR << 16) | (newG << 8) | newB;
                 result.setRGB(x, y, newRGB);
             }
