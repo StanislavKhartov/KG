@@ -23,79 +23,122 @@ public class Drawer {
     }
 
     public BufferedImage drawLineStep(BufferedImage img, int x1, int x2, int y1, int y2){
+        long time = System.nanoTime();
         Color color = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
         boolean xORy = (Math.abs(x1 - x2) - Math.abs(y1 - y2)) > 0;
         if(xORy){
+            System.out.println("Пошаговый алгоритм (итерируемся по х)");
             Double slope = (double) ((double)(y1 - y2) / (double) (x1 - x2));
+            System.out.println("k = " + slope);
+            System.out.println("Начало отрезка " + Math.min(x1, x2)+ ", " + Math.min(y1, y2));
             for(int i = 0; i < Math.abs(x1 - x2); i++){
-               img.setRGB((int)(i + Math.min(x1, x2)), (int)(slope * i + Math.min(y1, y2)), color.getRGB());
+                System.out.println("k*i = " + slope * i);
+                System.out.println("x= x + i = " + (Math.min(x1, x2) + i));
+                System.out.println("y= y + k*i = " + (Math.min(y1, y2) + i*slope));
+                System.out.println("Выбираем точку " + (int)(i + Math.min(x1, x2))+ ", " + (int)(slope * i + Math.min(y1, y2)));
+                img.setRGB((int)(i + Math.min(x1, x2)), (int)(slope * i + Math.min(y1, y2)), color.getRGB());
             }
         }else{
+            System.out.println("Пошаговый алгоритм (итерируемся по y)");
             Double slope = ((double)(x1 - x2)) /((double) (y1 - y2));
+            System.out.println("k = " + slope);
+            System.out.println("Начало отрезка " + Math.min(x1, x2)+ ", " + Math.min(y1, y2));
             for(int i = 1; i < Math.abs(y1 - y2); i++){
-               img.setRGB((int)(slope * i + Math.min(x1, x2)), (int)(i + Math.min(y1, y2)), color.getRGB());
+                System.out.println("k*i = " + slope * i);
+                System.out.println("y= y + i = " + (Math.min(y1, y2) + i));
+                System.out.println("x= x + k*i = " + (Math.min(x1, x2) + i*slope));
+                System.out.println("Выбираем точку " + (int)(slope * i + Math.min(x1, x2))+ ", " + (int)(i + Math.min(y1, y2)));
+                img.setRGB((int)(slope * i + Math.min(x1, x2)), (int)(i + Math.min(y1, y2)), color.getRGB());
             }
         }
+        System.out.println("Время работы пошагового алгоритма:" + String.valueOf(System.nanoTime() - time));
         Save(img);
         return img;
     }
 
     public BufferedImage drawLineCDA(BufferedImage img, int x1, int x2, int y1, int y2){
+        long time = System.nanoTime();
         Color color = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
         Double slopeX = (double) (Math.max(x1, x2) - Math.min(x1, x2));
         Double slopeY = (double) (Math.max(y1, y2) - Math.min(y1, y2));
+        System.out.println("Алгоритм ЦДА");
+        System.out.println("k_x = " + slopeX);
+        System.out.println("k_y = " + slopeY);
         img.setRGB(x1, y1, color.getRGB());
         Double l = Math.max(slopeX, slopeY);
+        System.out.println("l = " + l);
         Double i = 0.0;
         Double x = (double) Math.min(x1, x2);
         Double y = (double) Math.min(y1, y2);
+        System.out.println("Начало отрезка " + x + ", " + y);
         img.setRGB(Math.min(x1, x2), Math.min(y1, y2), color.getRGB());
-        while (i <= l)
+        while (i < l)
         {
             x += slopeX / l;
             y += slopeY / l;
             img.setRGB(x.intValue(), y.intValue(), color.getRGB());
+            System.out.println("y= x + k_x/l * i = " + x);
+            System.out.println("x= x + k_y/l * i = " + y);
+            System.out.println("Выбираем точку " +  x + ", " + y);
             i++;
         }
+        System.out.println("Время работы ЦДА алгоритма:" + String.valueOf(System.nanoTime() - time));
         Save(img);
         return img;
     }
 
     public BufferedImage drawLineBR(BufferedImage img, int x1, int x2, int y1, int y2){
-
+        System.out.println("Алгоритм Брезенхема");
+        long time = System.nanoTime();
         Double mistake = -0.5;
+        System.out.println("ошибка = " + mistake);
         boolean xORy = (Math.abs(x1 - x2) - Math.abs(y1 - y2)) > 0;
         Color color = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
         img.setRGB(x1, y1, color.getRGB());
         img.setRGB(x2, y2, color.getRGB());
         int delta = 0;
         if (xORy){
+            System.out.println("Итерируемся по x");
             Double slope = (double) ((double)(y1 - y2) / (double) (x1 - x2));
-            for(int i = 1; i < Math.abs(x1 - x2); i++){
+            System.out.println("k = " + slope);
+            for(int i = 1; i <= Math.abs(x1 - x2); i++){
                 mistake += slope;
+                System.out.println("ошибка = ошибка + k " + mistake);
                 if(mistake <= 0){
+                    System.out.println("ошибка <=0");
+                    System.out.println("Выбираем точку x = x + 1, y = y " +  (x1 + i) + ", " + (y1 + delta));
                     img.setRGB(x1 + i, y1 + delta, color.getRGB());
                 } else {
+                    System.out.println("ошибка > 0");
                     delta++;
                     mistake = mistake - 1.0;
+                    System.out.println("Выбираем точку x = x + 1, y = y + 1 " +  (x1 + i) + ", " + (y1 + delta));
                     img.setRGB(x1 + i, y1 + delta, color.getRGB());
                 }
 
             }
         }else{
+            System.out.println("Итерируемся по y");
             Double slope = ((double)(x1 - x2)) /((double) (y1 - y2));
-            for(int i = 1; i < Math.abs(y1 - y2); i++){
+            System.out.println("k = " + slope);
+            for(int i = 1; i <= Math.abs(y1 - y2); i++){
                 mistake += slope;
+                System.out.println("ошибка = ошибка + k " + mistake);
                 if(mistake <= 0){
+                    System.out.println("ошибка <=0");
+                    System.out.println("Выбираем точку x = x, y = y + 1 " + (x1 + delta) + ", " + (y1 + i));
                     img.setRGB(x1 + delta, y1 + i, color.getRGB());
                 } else {
+                    System.out.println("ошибка > 0");
                     delta++;
                     mistake = mistake - 1.0;
+                    System.out.println("Выбираем точку x = x + 1, y = y + 1 " +  (x1 + delta) + ", " + (y1 + i));
                     img.setRGB(x1 + delta, y1 + i, color.getRGB());
                 }
 
             }
         }
+        System.out.println("Время работы алгоритма Брезенхема:" + String.valueOf(System.nanoTime() - time));
         Save(img);
         return img;
     }
@@ -119,39 +162,50 @@ public class Drawer {
     }
 
     public BufferedImage drawCircle (BufferedImage img, int x, int y, int r){
+        System.out.println("Алгоритм Брезенхема для построения окружности");
+        long time = System.nanoTime();
         Color color = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
         int d = 3 - 2 * r;
+        System.out.println("d = 3 - 2 * r = " + d);
         int u = 6;
+        System.out.println("u = 6");
         int w = 10 - 4 * r;
+        System.out.println("w = 10 - 4 * r = " + w);
         int x1 = 0;
         int y1 = r;
+        System.out.println("Выбираем точку x = x, y = y + r " + (x + x1) + ", " + (y + y1) + " +7 отраженных точек");
         draw8(img, x, y, x1, y1, color);
         while (w < 10){
             if (d < 0){
                 d = d + u;
+                System.out.println("d = d + u = " + d);
                 u = u + 4;
+                System.out.println("u = u + 4 = " + u);
                 w = w + 4;
+                System.out.println("w = w + 4 = " + w);
                 x1 = x1 + 1;
                 draw8(img, x, y, x1, y1, color);
+                System.out.println("Выбираем точку x = x + 1, y = y + r " + (x + x1) + ", " + (y + y1) + " +7 отраженных точек");
             } else {
                 d = d + w;
+                System.out.println("d = d + w = " + d);
                 u = u + 4;
+                System.out.println("u = u + 4 = " + u);
                 w = w + 8;
+                System.out.println("w = w + 8 = " + w);
                 x1 = x1 + 1;
                 y1 = y1 - 1;
                 draw8(img, x, y, x1, y1, color);
+                System.out.println("Выбираем точку x = x + 1, y = y - 1 " + (x + x1) + ", " + (y + y1) + " +7 отраженных точек");
             }
         }
-
-        try {
-            ImageIO.write(img, "png", new File("outputFileName.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Время работы алгоритма построения окружности:" + String.valueOf(System.nanoTime() - time));
+        Save(img);
         return img;
     }
 
     public BufferedImage drawEllipse (BufferedImage img, int x, int y, int a, int b){
+        long time = System.nanoTime();
         if (a == b){
             return drawCircle(img, x, y, b);
         }
@@ -210,6 +264,7 @@ public class Drawer {
                 draw4(img, x, y, x1, y1, color);
             }
         }
+        System.out.println("Время работы алгоритма построения элипса:" + String.valueOf(System.nanoTime() - time));
         Save(img);
         return img;
     }
